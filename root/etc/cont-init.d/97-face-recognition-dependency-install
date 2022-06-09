@@ -24,7 +24,8 @@ apk add --no-cache \
     jpeg \
     jpeg-dev \
     libpng \
-    libpng-dev
+    libpng-dev \
+    bzip2-dev
 
 if $( command -v php7 ) == "/usr/bin/php7" ; then
     apk add php7-pdlib
