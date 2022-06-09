@@ -1,0 +1,86 @@
+#!/usr/bin/with-contenv bash
+#DLIB_BRANCH=v19.19
+#PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib64/pkgconfig/
+#PDLIB_BRANCH=master
+
+ALPINE_VER=$(cat /etc/apk/repositories | grep main | sed 's|.*alpine/v||' | sed 's|/main.*||')
+if [ "${ALPINE_VER}" = "3.14" ]; then
+    PIP_ARGS="-f https://wheel-index.linuxserver.io/alpine/"
+else
+    PIP_ARGS="-f https://wheel-index.linuxserver.io/alpine-${ALPINE_VER}/"
+fi
+
+echo "**** Installing required packages ****"
+apk add --no-cache \
+    cmake \
+    make \
+    gcc \
+    libc-dev \
+    g++ \
+    unzip \
+    openblas-dev \
+    libx11-dev \
+    pkgconf \
+    jpeg \
+    jpeg-dev \
+    libpng \
+    libpng-dev
+
+if $( command -v php7 ) == "/usr/bin/php7" ; then
+    apk add php7-pdlib
+    echo 'memory_limit=2048M' > /usr/local/etc/php/conf.d/memory-limit.ini
+fi
+if $( command -v php8 ) == "/usr/bin/php8" ; then
+    apk add php8-pdlib
+    echo 'memory_limit=2048M' > /usr/local/etc/php/conf.d/memory-limit.ini
+fi
+
+#wget -c -q https://github.com/davisking/dlib/archive/${DLIB_BRANCH}.tar.gz \
+#  && tar xf ${DLIB_BRANCH}.tar.gz \
+#  && mv dlib-* dlib \
+#  && cd dlib/dlib \
+#  && mkdir build \
+#  && cd build \
+#  && cmake -DBUILD_SHARED_LIBS=ON --config Release .. \
+#  && make \
+#  && make install
+
+#if $( command -v php7 ) == "/usr/bin/php7" ; then
+#    apk add php7-dev php7-gd
+#fi
+#if $( command -v php8 ) == "/usr/bin/php8" ; then
+#    apk add php8-dev php8-gd
+#fi
+
+#pkg-config --libs --cflags libjpeg \
+#  && pkg-config --libs --cflags dlib-1
+
+#wget -c -q https://github.com/goodspb/pdlib/archive/$PDLIB_BRANCH.zip \
+#  && unzip $PDLIB_BRANCH \
+#  && mv pdlib-* pdlib \
+#  && cd pdlib \
+#  && phpize \
+#  && ./configure \
+#  && make \
+#  && make install
+
+#if $( command -v php7 ) == "/usr/bin/php7" ; then
+#    echo "extension=pdlib.so" > /etc/php7/conf.d/pdlib.ini
+#fi
+#if $( command -v php8 ) == "/usr/bin/php8" ; then
+#    echo "extension=pdlib.so" > /etc/php8/conf.d/pdlib.ini
+#fi
+
+# wget https://github.com/matiasdelellis/facerecognition/files/3107912/crop-tests.zip \
+#  ; unzip -q crop-tests.zip \
+#  ; rm crop-tests/cropped_* \
+#  ; rm crop-tests/test.csv
+  
+#  cd crop-tests ; mkdir -p vendor/models/1/ \
+#  ; wget https://github.com/davisking/dlib-models/raw/94cdb1e40b1c29c0bfcaf7355614bfe6da19460e/mmod_human_face_detector.dat.bz2 -O vendor/models/1/mmod_human_face_detector.dat.bz2 \
+#  ; bzip2 -d vendor/models/1/mmod_human_face_detector.dat.bz2 \
+#  ; wget https://github.com/davisking/dlib-models/raw/2a61575dd45d818271c085ff8cd747613a48f20d/dlib_face_recognition_resnet_model_v1.dat.bz2 -O vendor/models/1/dlib_face_recognition_resnet_model_v1.dat.bz2 \
+#  ; bzip2 -d vendor/models/1/dlib_face_recognition_resnet_model_v1.dat.bz2 \
+#  ; wget https://github.com/davisking/dlib-models/raw/4af9b776281dd7d6e2e30d4a2d40458b1e254e40/shape_predictor_5_face_landmarks.dat.bz2 -O vendor/models/1/shape_predictor_5_face_landmarks.dat.bz2 \
+#  ; bzip2 -d vendor/models/1/shape_predictor_5_face_landmarks.dat.bz2 \
+#  ; php test.php
