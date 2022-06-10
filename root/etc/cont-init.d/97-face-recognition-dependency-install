@@ -4,11 +4,6 @@
 #PDLIB_BRANCH=master
 
 ALPINE_VER=$(cat /etc/apk/repositories | grep main | sed 's|.*alpine/v||' | sed 's|/main.*||')
-if [ "${ALPINE_VER}" = "3.14" ]; then
-    PIP_ARGS="-f https://wheel-index.linuxserver.io/alpine/"
-else
-    PIP_ARGS="-f https://wheel-index.linuxserver.io/alpine-${ALPINE_VER}/"
-fi
 
 echo "**** Installing required packages ****"
 apk add --no-cache \
