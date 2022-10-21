@@ -36,7 +36,10 @@ apk add --no-cache \
     php$PHP_VER-common \
     openblas-dev \
     lapack-dev 
+echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
+apk update
+apk add php$PHP_VER-pdlib@testing
 #apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
 #    dlib \
 #    php$PHP_VER-pdlib
@@ -44,15 +47,15 @@ apk add --no-cache \
 echo 'memory_limit=2048M' > /etc/php$PHP_VER/conf.d/memory-limit.ini
 echo "building libraries"
 echo "building dlib"
-wget -c -q https://github.com/davisking/dlib/archive/${DLIB_BRANCH}.tar.gz 
- tar xf ${DLIB_BRANCH}.tar.gz 
- mv dlib-* dlib 
- cd dlib/dlib 
- mkdir build 
- cd build 
- cmake -DBUILD_SHARED_LIBS=ON .. `-D CMAKE_BUILD_TYPE=Release`
- make -j $core_count
- make install
+#wget -c -q https://github.com/davisking/dlib/archive/${DLIB_BRANCH}.tar.gz 
+# tar xf ${DLIB_BRANCH}.tar.gz 
+# mv dlib-* dlib 
+# cd dlib/dlib 
+# mkdir build 
+# cd build 
+# cmake -DBUILD_SHARED_LIBS=ON .. `-D CMAKE_BUILD_TYPE=Release`
+# make -j $core_count
+# make install
 
 
 pkg-config --libs --cflags libjpeg 
