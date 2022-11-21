@@ -40,9 +40,9 @@ echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
 
 apk update
 apk add php$PHP_VER-pdlib@testing
-#apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-#    dlib \
-#    php$PHP_VER-pdlib
+apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    dlib \
+    php$PHP_VER-pdlib
 
 echo 'memory_limit=2048M' > /etc/php$PHP_VER/conf.d/memory-limit.ini
 echo "building libraries"
