@@ -4,12 +4,7 @@ PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib64/pkgconfig/
 PDLIB_BRANCH=master
 core_count=grep -c processor /proc/cpuinfo
 #ALPINE_VER=$(cat /etc/apk/repositories | grep main | sed 's|.*alpine/v||' | sed 's|/main.*||')
-if [ "$( command -v php7 )" = "/usr/bin/php7" ] ; then
-   PHP_VER=7
- fi
- if [ "$( command -v php8 )" = "/usr/bin/php8" ] ; then
-   PHP_VER=8
- fi
+PHP_VER=8
 echo "php installed version $PHP_VER"
 echo "existing cores $core_count"
 echo "**** Installing required packages ****"
@@ -31,20 +26,17 @@ apk add --no-cache \
     libpng-dev \
     bzip2-dev \
     libstdc++ \
-    php$PHP_VER-dev \
-    php$PHP_VER-gd \
-    php$PHP_VER-common \
+    php8-dev \
+    php8-gd \
+    php8-common \
     openblas-dev \
     lapack-dev 
-echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+#echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 apk update
-apk add php$PHP_VER-pdlib@testing
-apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    dlib \
-    php$PHP_VER-pdlib
+apk add php8-pdlib --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
-echo 'memory_limit=2048M' > /etc/php$PHP_VER/conf.d/memory-limit.ini
+echo 'memory_limit=2048M' > /etc/php8/conf.d/memory-limit.ini
 echo "building libraries"
 echo "building dlib"
 #wget -c -q https://github.com/davisking/dlib/archive/${DLIB_BRANCH}.tar.gz 
@@ -66,13 +58,13 @@ wget -c -q https://github.com/goodspb/pdlib/archive/$PDLIB_BRANCH.zip
  unzip $PDLIB_BRANCH 
  mv pdlib-* pdlib 
  cd pdlib 
- phpize$PHP_VER 
- ./configure --with-php-config=/usr/bin/php-config$PHP_VER 
+ phpize8 
+ ./configure --with-php-config=/usr/bin/php-config8 
  make -j $core_count
  make install
 
-#echo "[pdlib]" >> /etc/php$PHP_VER/conf.d/pdlib.ini
-echo "extension=pdlib.so" > /etc/php$PHP_VER/conf.d/pdlib.ini
+#echo "[pdlib]" >> /etc/php8/conf.d/pdlib.ini
+echo "extension=pdlib.so" > /etc/php8/conf.d/pdlib.ini
 
 #cd /tmp
 #echo "testing models"
@@ -88,4 +80,4 @@ echo "extension=pdlib.so" > /etc/php$PHP_VER/conf.d/pdlib.ini
 # wget https://github.com/davisking/dlib-models/raw/4af9b776281dd7d6e2e30d4a2d40458b1e254e40/shape_predictor_5_face_landmarks.dat.bz2 -O vendor/models/1/shape_predictor_5_face_landmarks.dat.bz2 
 # bzip2 -d vendor/models/1/shape_predictor_5_face_landmarks.dat.bz2 
  
-#php$PHP_VER test.php
+#php8 test.php
