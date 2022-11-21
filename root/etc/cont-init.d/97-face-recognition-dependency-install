@@ -33,12 +33,12 @@ apk add --no-cache \
     lapack-dev 
 #echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
-apk update
-apk add php8-pdlib --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+echo "installing dlib"
+apk add php8-pdlib --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 echo 'memory_limit=2048M' > /etc/php8/conf.d/memory-limit.ini
 echo "building libraries"
-echo "building dlib"
+
 #wget -c -q https://github.com/davisking/dlib/archive/${DLIB_BRANCH}.tar.gz 
 # tar xf ${DLIB_BRANCH}.tar.gz 
 # mv dlib-* dlib 
@@ -50,18 +50,18 @@ echo "building dlib"
 # make install
 
 
-pkg-config --libs --cflags libjpeg 
-pkg-config --libs --cflags dlib-1
-cd /tmp
-echo "building pdlib"
-wget -c -q https://github.com/goodspb/pdlib/archive/$PDLIB_BRANCH.zip 
- unzip $PDLIB_BRANCH 
- mv pdlib-* pdlib 
- cd pdlib 
- phpize8 
- ./configure --with-php-config=/usr/bin/php-config8 
- make -j $core_count
- make install
+#pkg-config --libs --cflags libjpeg 
+#pkg-config --libs --cflags dlib-1
+#cd /tmp
+#echo "building pdlib"
+#wget -c -q https://github.com/goodspb/pdlib/archive/$PDLIB_BRANCH.zip 
+# unzip $PDLIB_BRANCH 
+# mv pdlib-* pdlib 
+# cd pdlib 
+# phpize8 
+# ./configure --with-php-config=/usr/bin/php-config8 
+# make -j $core_count
+# make install
 
 #echo "[pdlib]" >> /etc/php8/conf.d/pdlib.ini
 echo "extension=pdlib.so" > /etc/php8/conf.d/pdlib.ini
