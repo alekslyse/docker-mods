@@ -8,10 +8,10 @@ PHP_VER=8
 echo "php installed version $PHP_VER"
 echo "existing cores $core_count"
 echo "**** Installing required packages ****"
-apk add --no-cache \
-    php8-dev \
-    php8-gd \
-    php8-common 
+#apk add --no-cache \
+    #php8-dev \
+    #php8-gd \
+    #php8-common 
     #\
     #cmake \
     #make \
