@@ -1,0 +1,7 @@
+#! /bin/bash
+WAIT_VERSION_DOWNLOAD=${WAIT_VERSION:-2.9.0}
+wget "https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION_DOWNLOAD/wait" -O /wait
+chmod +x /
+
+#WAIT_HOSTS
+/wait
