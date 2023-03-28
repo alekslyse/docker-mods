@@ -2,6 +2,7 @@
 
 echo "installing dlib"
 apk add php8-pdlib --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+cp /usr/lib/php8/modules/pdlib.so /usr/lib/php81/modules/pdlib.so 
 
 echo 'memory_limit=2048M' > /etc/php8/conf.d/memory-limit.ini
 echo "building libraries"
